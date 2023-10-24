@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 public enum Coordinate
 {
@@ -63,4 +65,11 @@ public static class Helpers
       basePosition + (horizontalModifier * 1f) + (verticalModifier * line)
     };
   }
+}
+
+
+public static class IEnumerableExtensions
+{
+  public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> self)
+     => self.Select((item, index) => (item, index));
 }
