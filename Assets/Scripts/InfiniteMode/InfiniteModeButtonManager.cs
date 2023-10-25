@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
@@ -7,24 +6,23 @@ using System;
 
 public class InfiniteModeButtonManager
 {
+  public Action OnHit;
+  public Action OnMiss;
   private readonly Coordinate[] coordinates = { Coordinate.TopCenter, Coordinate.MiddleCenter, Coordinate.MiddleRight, Coordinate.TopLeft, Coordinate.MiddleLeft, Coordinate.BottomCenter };
   private readonly Transform ParentTransform;
   private readonly GameObject ButtonPrefab;
   private readonly List<GameObject> InstantiatedButtons = new();
-  private readonly Action OnHit;
-  private readonly Action OnMiss;
 
-  public InfiniteModeButtonManager(GameObject buttonPrefab, Transform transform, Action onHit, Action onMiss)
+  public InfiniteModeButtonManager(GameObject buttonPrefab, Transform transform)
   {
     ButtonPrefab = buttonPrefab;
     ParentTransform = transform;
-    OnHit = onHit;
-    OnMiss = onMiss;
   }
 
-  public void Dispose()
+  public void ClearButttons()
   {
     InstantiatedButtons.ForEach(button => MonoBehaviour.Destroy(button));
+    InstantiatedButtons.Clear();
   }
 
   public void Initialize(Action onReloadClick, Tuple<string, int>[] options, int answer)
@@ -45,8 +43,8 @@ public class InfiniteModeButtonManager
 
   private void InstantiateButton(Coordinate coordinate, string text, Action onClick)
   {
-    GameObject buttonInstance = MonoBehaviour.Instantiate(ButtonPrefab, Helpers.GetButtonCoordinates(coordinate), Quaternion.identity);
-    buttonInstance.transform.SetParent(ParentTransform);
+    GameObject buttonInstance = MonoBehaviour.Instantiate(ButtonPrefab, ParentTransform);
+    buttonInstance.transform.localPosition = Helpers.GetButtonCoordinates(coordinate);
 
     var label = buttonInstance.GetComponentInChildren<TMP_Text>();
     var button = buttonInstance.GetComponent<Button>();

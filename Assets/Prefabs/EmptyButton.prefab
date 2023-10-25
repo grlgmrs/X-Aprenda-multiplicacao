@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8270165221639625431}
   - component: {fileID: 7861884835010334809}
   m_Layer: 5
-  m_Name: CalculatorButton
+  m_Name: EmptyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,14 +6,37 @@ public class InfiniteModeGameManager
   public int Answer { get; private set; }
   public Tuple<string, int>[] Options { get; private set; }
 
-  public void OnHit()
+  private readonly InfiniteModeLifeBarManager LifeBarManager;
+  private readonly InfiniteModeVisorManager VisorManager;
+  private readonly InfiniteModeButtonManager ButtonManager;
+
+  public InfiniteModeGameManager(
+    InfiniteModeLifeBarManager lifeBarManager,
+    InfiniteModeVisorManager visorManager,
+    InfiniteModeButtonManager buttonManager
+  )
   {
-    Debug.Log("Congratz!!");
+    LifeBarManager = lifeBarManager;
+    VisorManager = visorManager;
+    ButtonManager = buttonManager;
+
+    ButtonManager.OnHit = OnHit;
+    ButtonManager.OnMiss = OnMiss;
+
+    Reload();
   }
 
-  public void OnMiss()
+  private void OnHit()
   {
-    Debug.Log("Fail.");
+    NextPhase();
+  }
+
+  private void OnMiss()
+  {
+    LifeBarManager.RemoveHealthPoints(3);
+
+    if (LifeBarManager.CurrentHealth == 0)
+      Lose();
   }
 
   public void GenerateOptions()
@@ -28,4 +51,41 @@ public class InfiniteModeGameManager
 
     Answer = Options[random.Next(0, answerLength)].Item2;
   }
+
+  #region Game workflow
+
+  private void Reload()
+  {
+    ButtonManager.ClearButttons();
+    LifeBarManager.ResetCurrentHealth();
+    GenerateOptions();
+
+    VisorManager.SetAnswer(Answer.ToString());
+    ButtonManager.Initialize(
+      Reload,
+      Options,
+      Answer
+    );
+  }
+
+  private void NextPhase()
+  {
+    ButtonManager.ClearButttons();
+    GenerateOptions();
+
+    VisorManager.SetAnswer(Answer.ToString());
+    ButtonManager.Initialize(
+      Reload,
+      Options,
+      Answer
+    );
+  }
+
+  private void Lose()
+  {
+    ButtonManager.ClearButttons();
+    VisorManager.SetAnswer("You lose");
+  }
+
+  #endregion
 }

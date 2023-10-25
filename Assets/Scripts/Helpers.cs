@@ -10,6 +10,14 @@ public enum Coordinate
 
 public static class Helpers
 {
+  public static Vector3 GetHealthPointCoordinates(int index)
+  {
+    var spaceBetween = 4;
+    var healthPointWidth = 34;
+
+    return new Vector3(index * (healthPointWidth + spaceBetween), 0);
+  }
+
   public static Vector3 GetButtonCoordinates(Coordinate coordinate)
   {
     Vector3[][] lines = new Vector3[3][];
@@ -47,8 +55,7 @@ public static class Helpers
 
   private static Vector3[] GenerateCoordinate(int line)
   {
-    var offset = new Vector3(300f, 425f);
-    var basePosition = offset + new Vector3(0f, 18f);
+    var basePosition = new Vector3(0f, 18f);
     var spaceBetween = 20f;
     var buttonWidth = 154f;
     var buttonHeight = 132f;
