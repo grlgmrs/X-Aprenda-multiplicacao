@@ -8,6 +8,7 @@ public class HintsLoader : MonoBehaviour
   public GameObject Background; //componente onde as imagens serão carregadas
   public GameObject LeftButton; //controlar esquerdo
   public GameObject RightButton; //controlar direito
+  public GameObject ReturnButton; //botão de retorno
   public List<Sprite> Hints; //sprite -> imagem
   private int ImageIndex = 0;
 
@@ -35,5 +36,10 @@ public class HintsLoader : MonoBehaviour
   {
     if (--ImageIndex < 0) ImageIndex = Hints.Count;//count -> conta quantas imagens temos (vetores)
     RefreshCurrentImage();
+  }
+
+  public void OnButtonReturnClick()
+  {
+    Application.LoadLevel("Scenes/Home");
   }
 }
