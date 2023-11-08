@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "X-Calculator.sln"
+    "dotnet.defaultSolution": "X Calculator.sln"
 }

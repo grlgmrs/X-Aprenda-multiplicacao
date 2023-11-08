@@ -478,6 +478,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ButtonPrefab: {fileID: 8730165728270722792, guid: 889f2adbc00745f44a0cf9311463e2b1, type: 3}
+  HintButtonPrefab: {fileID: 3554716135682530379, guid: a210caaa9ecb143b2ac553857d1a59a5, type: 3}
+  HomeButtonPrefab: {fileID: 3734209950914543300, guid: 3097d4b6f288b48c79c52dfcde72c76b, type: 3}
+  EmptyButtonPrefab: {fileID: 1697119357731467072, guid: 10af34ffcfb8a4512bd202c7a42ac366, type: 3}
   HealthPointPrefab: {fileID: 7840416318152242660, guid: 7fb19dca27bbad846ac19e8d017e6f03, type: 3}
   VisorNumbers: {fileID: 1787988344}
   LifeBar: {fileID: 1341526561}

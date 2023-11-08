@@ -84,7 +84,7 @@ public class InfiniteModeGameManager
   private void Lose()
   {
     ButtonManager.ClearButttons();
-    VisorManager.SetAnswer("You lose");
+    VisorManager.SetAnswer("PERDEU");
   }
 
   #endregion

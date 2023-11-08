@@ -15,19 +15,19 @@ public class HomeMain : MonoBehaviour
 
     public void OnButtonPlayClick()
     {
-        Application.LoadLevel("Scenes/InfiniteMode"); //(Scene que deverá ser aberta quando clicado)
+        SceneManager.LoadScene("Scenes/InfiniteMode"); //(Scene que deverá ser aberta quando clicado)
     }
     public void OnButtonHintsClick()
     {
-        Application.LoadLevel("Scenes/Hints"); //(Scene que deverá ser aberta quando clicado)
+        SceneManager.LoadScene("Scenes/Hints", LoadSceneMode.Additive); //(Scene que deverá ser aberta quando clicado)
     }
     public void OnButtonMultiplicationClick()
     {
-        Application.LoadLevel(""); //(Scene que deverá ser aberta quando clicado)
+        SceneManager.LoadScene(""); //(Scene que deverá ser aberta quando clicado)
     }
     public void OnButtonCreditsClick()
     {
-        Application.LoadLevel(""); //(Scene que deverá ser aberta quando clicado)
+        SceneManager.LoadScene(""); //(Scene que deverá ser aberta quando clicado)
     }
     public void Quit()
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HintsLoader : MonoBehaviour
@@ -40,6 +41,6 @@ public class HintsLoader : MonoBehaviour
 
   public void OnButtonReturnClick()
   {
-    Application.LoadLevel("Scenes/Home");
+    SceneManager.UnloadSceneAsync("Hints");
   }
 }
