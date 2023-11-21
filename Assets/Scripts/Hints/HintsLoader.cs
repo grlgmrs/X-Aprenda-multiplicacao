@@ -17,9 +17,11 @@ public class HintsLoader : MonoBehaviour
   {
     var leftButton = LeftButton.GetComponent<Button>(); //
     var rightButton = RightButton.GetComponent<Button>();
+    var returnButton = ReturnButton.GetComponent<Button>();
 
     leftButton.onClick.AddListener(PreviousImage);
     rightButton.onClick.AddListener(NextImage);
+    returnButton.onClick.AddListener(ReturnMenu);
   }
 
   private void RefreshCurrentImage()
@@ -35,11 +37,11 @@ public class HintsLoader : MonoBehaviour
   }
   private void PreviousImage()
   {
-    if (--ImageIndex < 0) ImageIndex = Hints.Count;//count -> conta quantas imagens temos (vetores)
+    if (--ImageIndex < 0) ImageIndex = Hints.Count - 1;//count -> conta quantas imagens temos (vetores)
     RefreshCurrentImage();
   }
 
-  public void OnButtonReturnClick()
+  private void ReturnMenu()
   {
     SceneManager.UnloadSceneAsync("Hints");
   }
