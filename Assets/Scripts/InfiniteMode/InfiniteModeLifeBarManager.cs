@@ -38,6 +38,16 @@ public class InfiniteModeLifeBarManager
     }
   }
 
+  public void AddHealthPoints(int health)
+  {
+    if (CurrentHealth + health > MaxHealth) return;
+
+    for (var i = CurrentHealth; i < CurrentHealth + health; i++)
+      InstantiateHealthPoint(i);
+
+    CurrentHealth += health;
+  }
+
   private void InstantiateHealthPoint(int index)
   {
     var offset = new Vector3(-170.5f, 0);

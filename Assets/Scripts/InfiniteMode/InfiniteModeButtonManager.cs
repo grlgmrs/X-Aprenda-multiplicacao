@@ -48,7 +48,7 @@ public class InfiniteModeButtonManager
     InstantiatedButtons.Clear();
   }
 
-  public void Initialize(Action onReloadClick, Tuple<string, int>[] options, int answer)
+  public void Initialize(Tuple<string, int>[] options, int answer)
   {
     /// Botão para abrir a página de dicas, coloca ele na parte superior esquerda da tela
     InstantiateUniqueButton(Coordinate.TopLeft, HintButtonPrefab, () => SceneManager.LoadScene("Scenes/Hints", LoadSceneMode.Additive));
@@ -62,6 +62,15 @@ public class InfiniteModeButtonManager
 
     /// Gera botões vazios e não clicáveis
     for (var index = options.Count(); index < coordinates.Count(); index++)
+      InstantiateUniqueButton(coordinates[index], EmptyButtonPrefab);
+  }
+
+  public void InstantiateGameFinishedKeyboard()
+  {
+    InstantiateUniqueButton(Coordinate.TopLeft, EmptyButtonPrefab);
+    InstantiateUniqueButton(Coordinate.BottomLeft, HomeButtonPrefab, () => SceneManager.LoadScene("Scenes/Home"));
+
+    for (var index = 0; index < coordinates.Count(); index++)
       InstantiateUniqueButton(coordinates[index], EmptyButtonPrefab);
   }
 

@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class InfiniteModeGameManager
 {
@@ -9,25 +8,40 @@ public class InfiniteModeGameManager
   private readonly InfiniteModeLifeBarManager LifeBarManager;
   private readonly InfiniteModeVisorManager VisorManager;
   private readonly InfiniteModeButtonManager ButtonManager;
+  private readonly InfiniteModeTimeManager TimeManager;
+  private readonly InfiniteModePointsManager PointsManager;
 
   public InfiniteModeGameManager(
     InfiniteModeLifeBarManager lifeBarManager,
     InfiniteModeVisorManager visorManager,
-    InfiniteModeButtonManager buttonManager
+    InfiniteModeButtonManager buttonManager,
+    InfiniteModeTimeManager timeManager,
+    InfiniteModePointsManager pointsManager
   )
   {
     LifeBarManager = lifeBarManager;
     VisorManager = visorManager;
     ButtonManager = buttonManager;
+    TimeManager = timeManager;
+    PointsManager = pointsManager;
 
     ButtonManager.OnHit = OnHit;
     ButtonManager.OnMiss = OnMiss;
+    TimeManager.OnTimesUp = OnTimesUp;
 
     Reload();
   }
 
   private void OnHit()
   {
+    PointsManager.CalculatePoints(
+      TimeManager.GetElapsedTimeSincePhaseStarted(),
+      () =>
+      {
+        TimeManager.AddTime(3f);
+        LifeBarManager.AddHealthPoints(1);
+      }
+    );
     NextPhase();
   }
 
@@ -38,6 +52,7 @@ public class InfiniteModeGameManager
     if (LifeBarManager.CurrentHealth == 0)
       Lose();
   }
+
 
   public void GenerateOptions()
   {
@@ -56,26 +71,18 @@ public class InfiniteModeGameManager
 
   private void Reload()
   {
-    ButtonManager.ClearButttons();
     LifeBarManager.ResetCurrentHealth();
-    GenerateOptions();
-
-    VisorManager.SetAnswer(Answer.ToString());
-    ButtonManager.Initialize(
-      Reload,
-      Options,
-      Answer
-    );
+    NextPhase();
   }
 
   private void NextPhase()
   {
+    TimeManager.OnPhaseStart();
     ButtonManager.ClearButttons();
     GenerateOptions();
 
     VisorManager.SetAnswer(Answer.ToString());
     ButtonManager.Initialize(
-      Reload,
       Options,
       Answer
     );
@@ -84,7 +91,16 @@ public class InfiniteModeGameManager
   private void Lose()
   {
     ButtonManager.ClearButttons();
-    VisorManager.SetAnswer("PERDEU");
+    ButtonManager.InstantiateGameFinishedKeyboard();
+    TimeManager.SetTimerActive(false);
+    VisorManager.SetAnswer("FIM");
+  }
+
+  private void OnTimesUp()
+  {
+    ButtonManager.ClearButttons();
+    ButtonManager.InstantiateGameFinishedKeyboard();
+    VisorManager.SetAnswer("FIM");
   }
 
   #endregion

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class InfiniteModeLoader : MonoBehaviour
@@ -9,14 +10,18 @@ public class InfiniteModeLoader : MonoBehaviour
   public GameObject HealthPointPrefab;
   public GameObject VisorNumbers;
   public GameObject LifeBar;
-  private InfiniteModeGameManager GameManager;
+  public GameObject Countdown;
+  public GameObject Points;
   private InfiniteModeVisorManager VisorManager;
   private InfiniteModeButtonManager ButtonManager;
-
   private InfiniteModeLifeBarManager LifeBarManager;
+  private InfiniteModeTimeManager TimeManager;
+  private InfiniteModePointsManager PointsManager;
 
   void Start()
   {
+    TimeManager = new InfiniteModeTimeManager(Countdown.GetComponent<TMP_Text>());
+    PointsManager = new InfiniteModePointsManager(Points.GetComponent<TMP_Text>());
     LifeBarManager = new InfiniteModeLifeBarManager(LifeBar, HealthPointPrefab);
     ButtonManager = new InfiniteModeButtonManager(
       ButtonPrefab,
@@ -26,10 +31,18 @@ public class InfiniteModeLoader : MonoBehaviour
       transform
     );
     VisorManager = new InfiniteModeVisorManager(VisorNumbers);
-    GameManager = new InfiniteModeGameManager(
+
+    new InfiniteModeGameManager(
       LifeBarManager,
       VisorManager,
-      ButtonManager
+      ButtonManager,
+      TimeManager,
+      PointsManager
     );
+  }
+
+  void Update()
+  {
+    TimeManager.Update();
   }
 }
