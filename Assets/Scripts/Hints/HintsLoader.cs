@@ -10,6 +10,7 @@ public class HintsLoader : MonoBehaviour
   public GameObject LeftButton; //controlar esquerdo
   public GameObject RightButton; //controlar direito
   public GameObject ReturnButton; //botão de retorno
+  public GameObject HintsImage;
   public List<Sprite> Hints; //sprite -> imagem
   private int ImageIndex = 0;
 
@@ -22,6 +23,8 @@ public class HintsLoader : MonoBehaviour
     leftButton.onClick.AddListener(PreviousImage);
     rightButton.onClick.AddListener(NextImage);
     returnButton.onClick.AddListener(ReturnMenu);
+
+    StartCoroutine(HintsFadeOut());
   }
 
   private void RefreshCurrentImage()
@@ -44,5 +47,26 @@ public class HintsLoader : MonoBehaviour
   private void ReturnMenu()
   {
     SceneManager.UnloadSceneAsync("Hints");
+  }
+
+  private IEnumerator HintsFadeOut()
+  {
+    yield return new WaitForSeconds(Constants.HintsHomeWaitUntilFadeOut);
+
+    if (HintsImage.TryGetComponent<Image>(out var image))
+    {
+      float startAlpha = image.color.a;
+      float rate = 1.0f / Constants.HintsHomeFadeOut;
+
+      for (float i = 0; i < 1.0; i += Time.deltaTime * rate)
+      {
+        Color color = image.color;
+        color.a = Mathf.Lerp(startAlpha, 0, i);
+        image.color = color;
+        yield return null;
+      }
+
+      Destroy(HintsImage);
+    }
   }
 }

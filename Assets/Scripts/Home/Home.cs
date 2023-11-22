@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class HomeMain : MonoBehaviour
 {
-    //[SerializeField] private GameObject Home;
-    //[SerializeField] private GameObject HomeButtons;
-    //[SerializeField] private GameObject PlayButton;
-    //[SerializeField] private GameObject HinstButton;
-    //[SerializeField] private GameObject MultiplicationButton;
-    //[SerializeField] private GameObject CreditsButton;
-
     public void OnButtonPlayClick()
     {
         SceneManager.LoadScene("Scenes/InfiniteMode"); //(Scene que deverá ser aberta quando clicado)
@@ -23,15 +15,30 @@ public class HomeMain : MonoBehaviour
     }
     public void OnButtonMultiplicationClick()
     {
-        SceneManager.LoadScene(""); //(Scene que deverá ser aberta quando clicado)
+        OpenMultiplicationTable();
     }
     public void OnButtonCreditsClick()
     {
-        SceneManager.LoadScene(""); //(Scene que deverá ser aberta quando clicado)
+        SceneManager.LoadScene("Scenes/Credits"); //(Scene que deverá ser aberta quando clicado)
     }
     public void Quit()
     {
         Application.Quit(); //fecha jogo
+    }
+
+    private void OpenMultiplicationTable()
+    {
+        Texture2D multiplicationTableImage = Resources.Load<Texture2D>("tabuada");
+
+        string tempPath = Path.Combine(Application.temporaryCachePath, "tempMultiplicationTable.png");
+        SaveImage(tempPath, multiplicationTableImage);
+        Process.Start(tempPath);
+    }
+
+    private void SaveImage(string filePath, Texture2D image)
+    {
+        byte[] imageBytes = image.EncodeToPNG();
+        File.WriteAllBytes(filePath, imageBytes);
     }
 
 }
